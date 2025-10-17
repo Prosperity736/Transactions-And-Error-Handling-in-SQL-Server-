@@ -279,3 +279,38 @@ END CATCH
 
 SELECT *
 FROM dbo.buyers;
+
+- Set up the TRY block
+BEGIN TRY
+	-- Add the constraint
+	ALTER TABLE products
+		ADD CONSTRAINT CHK_Stock CHECK (stock >= 0);
+END TRY
+-- Set up the CATCH block
+BEGIN CATCH
+	SELECT 'An error occurred!';
+END CATCH
+
+
+ALTER TABLE buyers
+ADD CONSTRAINT UQ_Buyers_Email UNIQUE (Email);
+
+SELECT Email,COUNT(*) AS Count
+FROM dbo.buyers
+GROUP BY email
+HAVING COUNT(*) > 1;
+
+;WITH Duplicates AS (SELECT *,
+ROW_NUMBER () OVER (PARTITION BY Email ORDER BY Phone) AS rn
+FROM buyers) 
+DELETE FROM Duplicates
+WHERE rn >1;
+
+
+ALTER TABLE buyers
+ADD CONSTRAINT UQ_Buyers_Email UNIQUE (Email);
+
+ALTER TABLE buyers
+ADD CONSTRAINT UQ_Buyers_phone UNIQUE (phone);
+
+
