@@ -3,7 +3,7 @@ It is critical to know how to handle errors and manage transactions when program
 
 
 
-```
+```SQL
 CREATE DATABASE tehandling;
 GO
 USE tehandling;
